@@ -19,18 +19,25 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.*
+import androidx.compose.material.Button
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
+import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.androiddevchallenge.ui.theme.MyTheme
@@ -56,7 +63,6 @@ fun MyApp() {
             .fillMaxWidth()
             .fillMaxHeight()
     ) {
-
 
         Column(
             verticalArrangement = Arrangement.Center,
@@ -86,7 +92,8 @@ fun MyApp() {
                         // shift digits to the left only until if the first digit is zero
                     }
                     val rawString = String.format(
-                        "%06d", try {
+                        "%06d",
+                        try {
                             textFieldInput.value.toInt()
                         } catch (e: NumberFormatException) {
                             0
@@ -133,18 +140,22 @@ fun MyApp() {
                             timer.value = null
                             isTimerRunning.value = false
                         }
-                    }) {
+                    }
+                ) {
                     Text(text = if (!isTimerRunning.value) "Start" else "Stop")
                 }
-                Button(modifier = Modifier.padding(16.dp), onClick = {
-                    timer.value?.cancel()
-                    timer.value = null
-                    isTimerRunning.value = false
+                Button(
+                    modifier = Modifier.padding(16.dp),
+                    onClick = {
+                        timer.value?.cancel()
+                        timer.value = null
+                        isTimerRunning.value = false
 
-                    countDownSecondsValue.value = 0
-                    textFieldValue.value = "00h00m00s"
-                    textFieldInput.value = ""
-                }) {
+                        countDownSecondsValue.value = 0
+                        textFieldValue.value = "00h00m00s"
+                        textFieldInput.value = ""
+                    }
+                ) {
                     Text(text = "Reset")
                 }
             }
@@ -158,10 +169,10 @@ fun Int.toCountDownFormat(): String {
     val seconds = this % 60
 
     return "${String.format("%02d", hours)}h${
-        String.format(
-            "%02d",
-            minutes
-        )
+    String.format(
+        "%02d",
+        minutes
+    )
     }m${String.format("%02d", seconds)}s"
 }
 
